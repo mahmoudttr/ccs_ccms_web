@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+    .error {
+        color: red;
+    }
+</style>
+<body>
+
+<h3>Add User</h3>
+<div id="message"></div>
+<pre>
+    <form action="http://localhost:3006/users/store" enctype="multipart/form-data" id="form_create_user"
+          method="post" onsubmit="addUser(this); return false;">
+        <input name="username" placeholder="Username" type="text"><br>
+        <input name="first_name" placeholder="First Name" type="text"><br>
+        <input name="last_name" placeholder="Last Name" type="text"><br>
+        <input name="email" placeholder="Email" type="text"><br>
+        <input name="password" placeholder="Password" type="password"><br>
+        <input name="image" type="file"><br>
+        <input name="phone_number_pbx" placeholder="Phone Number PBX" type="tel"><br>
+        <select name="role_id">
+            <option value="MDU">MDU</option>
+            <option value="CCMS">CCMS</option>
+        </select><br>
+        <button type="submit">Save</button>
+    </form>
+</pre>
+<h3>Users</h3>
+<div id="table_users"></div>
+
+<script>
+    getUsers();
+
+    function getUsers() {
+        var url = 'http://localhost:3006/users/data';
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var i = 0;
+                var table = '<table border="1" cellpadding="10">' +
+                    '<thead>' +
+                    '<tbody>' +
+                    '    <th>Username</th>' +
+                    '    <th>Full Name</th>' +
+                    '    <th>Email</th>\n' +
+                    '    <th>Image</th>\n' +
+                    '    <th>Phone Number PBX</th>' +
+                    '    <th>Role</th>' +
+                    '    <th>Action</th>';
+                data = $.parseJSON(data);
+                if (data.result == 1) {
+                    $.each(data.data, function (idx, obj) {
+                        table += ('<tr>');
+                        table += ('<td>' + obj.username + '</td>');
+                        table += ('<td>' + obj.first_name + obj.last_name + '</td>');
+                        table += ('<td>' + obj.email + '</td>');
+                        table += ('<td><img src="' + obj.image + '"></td>');
+                        table += ('<td>' + obj.phone_number_pbx + '</td>');
+                        table += ('<td>' + obj.role_id + '</td>');
+                        table += ('<td>  <a href="">edit</a> |<a href="">delete</a> </td>');
+                        table += ('</tr>');
+                    });
+                    table += ('</thead></tbody></table>');
+                    $("#table_users").html(table);
+                }
+            },
+        });
+    }
+    function addUser(x) {
+        $.ajax({
+            type: 'POST',
+            url: $('#form_create_user').attr('action'),
+            data: new FormData(x),
+            dataType: "json",
+            success: function (data) {
+                if (data.result == 1) {
+
+                }
+            }, error: function (errors, exception) {
+                if (exception == 'error') {
+
+                    if (errors.responseJSON.message) {
+                        var error = '';
+                        $.each(errors.responseJSON.errors, function (index, array) {
+                            $.each(array, function (i, value) {
+                                error += '<li>' + value + '</li>';
+                                console.log(value);
+                            });
+                        });
+                        $('#message').html(error);
+                        $('#message').addClass("error");
+                    }
+                }
+            }
+        });
+    }
+
+
+    function addUser(x) {
+        $.ajax({
+            type: 'POST',
+            url: $('#form_create_user').attr('action'),
+            data: new FormData(x),
+            dataType: "json",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.result == 1) {
+
+                }
+            }, error: function (errors, exception) {
+                if (exception == 'error') {
+
+                    if (errors.responseJSON.message) {
+                        var error = '';
+                        $.each(errors.responseJSON.errors, function (index, array) {
+                            $.each(array, function (i, value) {
+                                error += '<li>' + value + '</li>';
+                                console.log(value);
+                            });
+                        });
+                        $('#message').html(error);
+                        $('#message').addClass("error");
+                    }
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>

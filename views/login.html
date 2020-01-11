@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- Login Form -->
+<form id="form_create_user">
+    <input id="username" name="username" placeholder="username" type="text"><br/>
+    <input id="password" name="login" placeholder="password" type="text"><br/>
+    <input id="btn_login" type="button" value="Log In">
+</form>
+
+</body>
+<script>
+    $(document).on('click', '#btn_login', function () {
+        var apiUrl = 'http://localhost:3009/api/v1/';
+        var data = $('#form_create_user').serialize();
+        console.log(data);
+        $.ajax({
+            url: apiUrl + 'login',
+            headers: {
+                'Access-Control-Allow-Origin': apiUrl,
+                'Content-Type': 'application/json',
+                'authorization': 'TOKEN',
+            },
+            data: data,
+            type: 'post',
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (errors, exption) {
+
+            },
+            compile: function () {
+
+            },
+            before: function () {
+
+            },
+            done: function () {
+
+            },
+
+        });
+    });
+</script>
+</html>

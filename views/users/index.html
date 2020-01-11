@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+    .error {
+        color: red;
+    }
+
+    .success {
+        color: green;
+    }
+</style>
+<body>
+
+<h3 id="titleForm">Add User</h3>
+<div id="message"></div>
+
+<form action="http://localhost:3006/users" id="form_create_user" method="post">
+    <div id="is_update"></div>
+    <input id="username" name="username" placeholder="Username" type="text"><br>
+    <input id="first_name" name="first_name" placeholder="First Name" type="text"><br>
+    <input id="last_name" name="last_name" placeholder="Last Name" type="text"><br>
+    <input id="email" name="email" placeholder="Email" type="text"><br>
+    <input id="password" name="password" placeholder="Password" type="password"><br>
+    <!--<input name="image" type="file">--><br>
+    <input id="phone_number_pbx" name="phone_number_pbx" placeholder="Phone Number PBX" type="tel"><br>
+    <div id="roles"></div>
+    <br>
+    <div id="btn_form"></div>
+    <div id="btn_cancel_update"></div>
+</form>
+<hr>
+<h3>Users</h3>
+<div id="table_users"></div>
+
+<script>
+    getUsers();
+
+    getRoles();
+
+    btnCreateForm();
+
+    function btnCreateForm() {
+        $('#btn_form').html('<button onclick="addUser()" type="button">Save</button>');
+    }
+
+    function cancelUpdate() {
+        $("#titleForm").html('Add User');
+        $('#form_create_user').attr('action', 'http://localhost:3006/users');
+        $("#username").val('');
+        $("#first_name").val('');
+        $("#last_name").val('');
+        $("#email").val('');
+        $("#phone_number_pbx").val('');
+        $("#password").show();
+        btnCreateForm();
+        $('#btn_cancel_update').html('');
+        $('#is_update').html('');
+    }
+
+    function editUser(id) {
+        var url = 'http://localhost:3006/users/' + id;
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.result == 1) {
+                    $("#titleForm").html('Edit User');
+                    $('#form_create_user').attr('action', 'http://localhost:3006/users/' + data.data.id);
+                    $("#username").val(data.data.username);
+                    $("#first_name").val(data.data.first_name);
+                    $("#last_name").val(data.data.last_name);
+                    $("#email").val(data.data.email);
+                    $("#password").hide();
+                    $("#phone_number_pbx").val(data.data.phone_number_pbx);
+                    $('#btn_form').html('<button onclick="addUser()" type="button" id="btn_form">Update</button>');
+                    $('#btn_cancel_update').html('<button type="button" onclick="cancelUpdate()">Cancel</button>');
+                    $('#is_update').html(' <input type="hidden" name="_method" value="put">');
+                }
+            }, beforeSend: function () {
+                $("#message").html('');
+            }
+        });
+    }
+
+    function getUsers() {
+        var url = 'http://localhost:3006/users/data';
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var i = 0;
+                var table = '<table border="1" cellpadding="10">' +
+                    '<thead>' +
+                    '<tbody>' +
+                    '    <th>#</th>' +
+                    '    <th>Username</th>' +
+                    '    <th>Full Name</th>' +
+                    '    <th>Email</th>\n' +
+                    //   '    <th>Image</th>\n' +
+                    '    <th>Phone Number PBX</th>' +
+                    //  '    <th>Role</th>' +
+                    '    <th>Action</th>';
+                if (data.result == 1) {
+                    $.each(data.data, function (idx, obj) {
+                        table += ('<tr>');
+                        table += ('<td>' + ++i + '</td>');
+                        table += ('<td>' + obj.username + '</td>');
+                        table += ('<td>' + obj.first_name + obj.last_name + '</td>');
+                        table += ('<td>' + obj.email + '</td>');
+                        // table += ('<td><img src="' + obj.image + '"></td>');
+                        table += ('<td>' + obj.phone_number_pbx + '</td>');
+                        //    table += ('<td>' + obj.role_id + '</td>');
+                        table += ('<td> ' +
+                            ' <a href="javascript:;" onclick="editUser(' + obj.id + ')">Edit</a> ' +
+                            '<a href="javascript:;" onclick="deleteUser(' + obj.id + ')">Delete</a> ' +
+                            '</td>');
+                        table += ('</tr>');
+                    });
+                    table += ('</thead></tbody></table>');
+                    $("#table_users").html(table);
+                }
+            },
+        });
+    }
+
+    function deleteUser(id) {
+        var url = "http://localhost:3006/users/" + id;
+        if (confirm("Are you sure?")) {
+            $.ajax({
+                url: url,
+                data: {},
+                type: 'DELETE',
+                dataType: 'json',
+                success: function (data) {
+                    var response = $.parseJSON(data);
+                    if (response.result == 1) {
+                        alert(response.message);
+                        getUsers();
+                    }
+                }
+            });
+        }
+    }
+
+    function getRoles() {
+        var url = "http://localhost:3006/roles";
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.result == 1) {
+                    var roles = ' <select name="role_id" id="role_id">';
+                    //  roles += ' <option value="">Select Role</option>';
+                    $.each(data.data, function (index, array) {
+                        roles += '<option value="' + array.id + '">' + array.name + '</option>';
+                    });
+                    roles += ' </select>';
+                    $('#roles').html(roles);
+                }
+            }
+        });
+    }
+
+    function addUser() {
+        $.ajax({
+            type: 'POST',
+            url: $('#form_create_user').attr('action'),
+            data: $('#form_create_user').serialize(),
+            dataType: "json",
+            success: function (data) {
+                alert(data.message);
+                if (data.result == 1) {
+                    getUsers();
+                }
+            }, error: function (errors, exception) {
+                if (exception == 'error') {
+                    if (errors.responseJSON.message) {
+                        var error = '';
+                        if (Array.isArray(errors.responseJSON.errors)) {
+                            $.each(errors.responseJSON.errors, function (index, array) {
+                                error += '<li>' + array.message + '</li>';
+                            });
+                        } else {
+                            error += '<li>' + errors.responseJSON.errors + '</li>';
+                        }
+                        $('#message').html(error);
+                        $('#message').addClass("error");
+                    }
+                }
+            }, beforeSend: function () {
+                $('#message').html('');
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

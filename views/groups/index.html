@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Groups</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style>
+    .error {
+        color: red;
+    }
+
+    .success {
+        color: green;
+    }
+</style>
+<body>
+
+<h3 id="titleForm">Add Group</h3>
+<div id="message"></div>
+
+<form action="http://localhost:3006/groups" id="form_create_user" method="post">
+    <div id="is_update"></div>
+    <!--<div id="_id"></div>-->
+    <input id="name" name="name" placeholder="Name" type="text"><br>
+    <textarea id="description" name="description" placeholder="Description"></textarea>
+    <br>
+    <div id="btn_form"></div>
+    <div id="btn_cancel_update"></div>
+</form>
+
+<h3>Groups</h3>
+<div id="table_groups"></div>
+
+<script>
+
+    getGroups();
+
+    btnCreateForm();
+
+    function btnCreateForm() {
+        $('#btn_form').html('<button onclick="addGroup()" type="button" id="btn_form">Save</button>');
+    }
+
+    function getGroups() {
+        var url = 'http://localhost:3006/groups/data';
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var i = 0;
+                var table = '<table border="1" cellpadding="10">' +
+                    '<thead>' +
+                    '<tbody>' +
+                    '    <th>Name</th>' +
+                    '    <th>Description</th>' +
+                    '    <th>Action</th>';
+                if (data.result == 1) {
+                    $.each(data.data, function (idx, obj) {
+                        table += ('<tr>');
+                        table += ('<td>' + obj.name + '</td>');
+                        table += ('<td>' + obj.description + '</td>');
+                        table += ('<td> ' +
+                            //  ' <a href="">Add User</a> |' +
+                            ' <a href="javascript:;" onclick="editGroup(' + obj.id + ')">Edit</a> | ' +
+                            ' <a href="javascript:;" onclick="deleteGroup(' + obj.id + ')">Delete</a> ' +
+                            '</td>');
+                        table += ('</tr>');
+                    });
+                    table += ('</thead></tbody></table>');
+                    $("#table_groups").html(table);
+                }
+            },
+        });
+    }
+
+    function cancelUpdate() {
+        $("#titleForm").html('Add Group');
+        $('#form_create_user').attr('action', 'http://localhost:3006/groups');
+        $("#name").val('');
+        $("#description").val('');
+        btnCreateForm();
+        $('#btn_cancel_update').html('');
+        $('#is_update').html('');
+    }
+
+    function editGroup(id) {
+        var url = 'http://localhost:3006/groups/' + id;
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.result == 1) {
+                    $("#titleForm").html('Edit Group');
+                    $('#form_create_user').attr('action', 'http://localhost:3006/groups/'+ data.data.id);
+                    $("#name").val(data.data.name);
+                    $("#description").val(data.data.description);
+                    $('#btn_form').html('<button onclick="addGroup()" type="button" id="btn_form">Update</button>');
+                    $('#btn_cancel_update').html('<button type="button" onclick="cancelUpdate()">Cancel</button>');
+                    $('#is_update').html(' <input type="hidden" name="_method" value="put">');
+                }
+            },beforeSend: function () {
+                $("#message").html('');
+            }
+        });
+    }
+
+    function updateGroup() {
+
+    }
+
+    function deleteGroup(id) {
+        var url = "http://localhost:3006/groups/" + id;
+        if (confirm("Are you sure?")) {
+            $.ajax({
+                url: url,
+                data: {},
+                type: 'DELETE',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.result == 1) {
+                        alert(data.message);
+                        getGroups();
+                    }
+                }
+            });
+        }
+    }
+
+    function addGroup() {
+        $.ajax({
+            type: 'POST',
+            url: $('#form_create_user').attr('action'),
+            data: $('#form_create_user').serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.result == 1) {
+                    alert(data.message);
+                    getGroups();
+                    cancelUpdate();
+                }
+            }, error: function (errors, exception) {
+                if (exception == 'error') {
+                    if (errors.responseJSON.message) {
+                        var error = '';
+                        if (Array.isArray(errors.responseJSON.errors)) {
+                            $.each(errors.responseJSON.errors, function (index, array) {
+                                error += '<li>' + array.message + '</li>';
+                            });
+                        } else {
+                            error += '<li>' + errors.responseJSON.errors + '</li>';
+                        }
+                        $('#message').html(error);
+                        $('#message').addClass("error");
+                    }
+                }
+            }, beforeSend: function () {
+                $('#message').html('');
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

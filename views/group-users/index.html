@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Group Users</title>
+</head>
+<style>
+    .error {
+        color: red;
+    }
+
+    .success {
+        color: green;
+    }
+
+    b {
+        color: #000;
+    }
+</style>
+<body>
+
+<h3>Add User to Group</h3>
+<div id="message"></div>
+
+<form action="http://localhost:3006/group-users" id="form_create_group" method="post">
+    <label>Select User</label>
+    <div id="users"></div>
+    <br>
+    <label>Select Group</label>
+    <div id="groups"></div>
+    <br>
+    <button onclick="addUserToGroup()" type="button">Save</button>
+</form>
+<hr>
+<h3>Group Users</h3>
+<input id="groupName" name="groupName" placeholder="Enter Group Name" type="text">
+<button onclick="getGroupUsers()" type="button">Get Users</button>
+<div id="table_group_users"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div id="js"></div>
+<script>
+
+    $('#user_id').on('change', function () {
+        alert(this.value);
+    });
+
+    getGroups();
+
+    getUsers();
+
+    function getGroupUsers() {
+        var groupName = $('#groupName').val();
+        var url = "http://localhost:3006/group-users/users/" + groupName;
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.data.length == 0) {
+                    $("#table_group_users").html('<p class="error">There are no users in the group <b>' + groupName + '</b></p>');
+                } else {
+                    var i = 0;
+                    var table = '<table border="1" cellpadding="10">' +
+                        '<thead>' +
+                        '<tbody>' +
+                        '    <th>#</th>' +
+                        '    <th>Group name</th>' +
+                        '    <th>Username</th>\n' +
+                        '    <th>Action</th>';
+                    if (data.result == 1) {
+                        $.each(data.data, function (idx, obj) {
+                            table += ('<tr>');
+                            table += ('<td>' + ++i + '</td>');
+                            table += ('<td>' + obj.group_name + '</td>');
+                            table += ('<td>' + obj.user_name + '</td>');
+                            table += ('<td> ' +
+                                ' <a href="javascript:;" title="Move a user from the group">Edit</a> | ' +
+                                '<a href="javascript:;" onclick="deleteUserFromGroup(' + obj.id + ')" title="Delete User From Group">Delete</a> ' +
+                                '</td>');
+                            table += ('</tr>');
+                        });
+                        table += ('</thead></tbody></table>');
+                        $("#table_group_users").html(table);
+                    }
+                }
+            }, error: function (errors, exception) {
+                if (exception == 'error') {
+                    if (errors.responseJSON.message) {
+                        var error = '';
+                        if (Array.isArray(errors.responseJSON.errors)) {
+                            $.each(errors.responseJSON.errors, function (index, array) {
+                                error += '<li>' + array.message + '</li>';
+                            });
+                        } else {
+                            error += '<li>' + errors.responseJSON.errors + '</li>';
+                        }
+                        $('#message').html(error);
+                        $('#message').addClass("error");
+                    }
+                }
+            }
+        });
+    }
+
+    function getGroups() {
+        var url = "http://localhost:3006/groups/data";
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.result == 1) {
+                    var groups = ' <select name="group_id">';
+                    // groups += ' <option value="">Select User</option>';
+                    $.each(data.data, function (index, array) {
+                        groups += '<option value="' + array.id + '">' + array.name + '</option>';
+                    });
+                    groups += ' </select>';
+                    $('#groups').html(groups);
+                }
+            }
+        });
+    }
+
+    function getUsers() {
+        var url = "http://localhost:3006/users/data";
+        $.ajax({
+            url: url,
+            data: {},
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.result == 1) {
+                    var users = ' <select name="user_id" id="user_id">';
+                    // users += ' <option value="">Select User</option>';
+                    $.each(data.data, function (index, array) {
+                        users += '<option value="' + array.id + '">' + array.username + '</option>';
+                    });
+                    users += ' </select>';
+                    $('#users').html(users);
+                    //$('#_users').html(users);
+                }
+            }
+        });
+    }
+
+    function deleteUserFromGroup(id) {
+        var url = "http://localhost:3006/group-users/" + id;
+        if (confirm("Are you sure?")) {
+            $.ajax({
+                url: url,
+                data: {},
+                type: 'DELETE',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    if (data.result == 1) {
+                        alert(data.message);
+                        getGroupUsers();
+                    }
+                }
+            });
+        }
+    }
+
+    function addUserToGroup() {
+        $.ajax({
+            type: 'POST',
+            url: $('#form_create_group').attr('action'),
+            data: $('#form_create_group').serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.result == 1) {
+                    alert(data.message);
+                }
+            }, error: function (errors, exception) {
+                if (exception == 'error') {
+                    if (errors.responseJSON.message) {
+                        var error = '';
+                        if (Array.isArray(errors.responseJSON.errors)) {
+                            $.each(errors.responseJSON.errors, function (index, array) {
+                                error += '<li>' + array.message + '</li>';
+                            });
+                        } else {
+                            error += '<li>' + errors.responseJSON.errors + '</li>';
+                        }
+                        $('#message').html(error);
+                        $('#message').addClass("error");
+                    }
+                }
+            }, beforeSend: function () {
+                $('#message').html('');
+            }
+        });
+    }
+
+</script>
+</body>
+</html>
