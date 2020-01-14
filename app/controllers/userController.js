@@ -15,12 +15,11 @@ exports.create = (req, res) => {
 };
 
 // store user in database
-exports.store = (req, res, next) => {
-
+exports.store = async (req, res, next) => {
+    console.log(0);
     /*  await new Promise((Resolve, Reject) => {
       });*/
     //await
-
     const rules = yup.object().shape({
         username: yup.string().required(),
         first_name: yup.string().required(),
@@ -29,8 +28,9 @@ exports.store = (req, res, next) => {
         phone_number_pbx: yup.string(),
         password: yup.string().required()
     });
-    rules.validate(req.body, {abortEarly: false})
+    await rules.validate(req.body, {abortEarly: false})
         .then(function (value) {
+            console.log(value);
             request({
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     method: 'POST',
@@ -38,6 +38,9 @@ exports.store = (req, res, next) => {
                     form: value,
                 }
                 , function (error, response, body) {
+                    console.log(5552222);
+                    console.log(response.statusCode);
+
                     return res.status(response.statusCode).json(JSON.parse(body));
                 });
         })
@@ -49,7 +52,13 @@ exports.store = (req, res, next) => {
                 code: 422,
                 errors: schemaErrors
             });
+            console.log(2222);
         });
+    console.log(7777);
+    return;
+    console.log(8888);
+    //console.log(666);
+
     //  validate(req, res, next);
     //  console.log(valid);
     /*  if(valid) {
@@ -70,13 +79,13 @@ exports.findAll = (req, res) => {
 // Retrieve all Objects from the database.
 exports._findAll = (req, res) => {
     request("http://localhost:3007/api/v1/users", function (error, response, body) {
-        return res.sendFile(path.join(__dirname + './../../views/users/select.html',{data:body}));
+        return res.sendFile(path.join(__dirname + './../../views/users/select.html', {data: body}));
     });
 };
 
 
 exports.edit = (req, res) => {
-    request("http://localhost:3007/api/v1/users/"+req.params.id, function (error, response, body) {
+    request("http://localhost:3007/api/v1/users/" + req.params.id, function (error, response, body) {
         return res.status(response.statusCode).json(JSON.parse(body));
     });
 };
@@ -90,7 +99,7 @@ exports.update = (req, res) => {
         last_name: yup.string().required(),
         email: yup.string().required().email(),
         phone_number_pbx: yup.string(),
-      //  password: yup.string().required()
+        //  password: yup.string().required()
     });
 
     const valid = rules.validate(req.body, {abortEarly: false})
