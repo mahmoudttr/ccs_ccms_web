@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="29d6fe22-c49d-4e8d-9b0c-08a1a73fe79e" name="ccms" url="http://78.141.219.180">
-        <fileTransfer host="78.141.219.180" port="22" rootFolder="/var/nodes/ccs/ccms/ccs_ccms_web" accessType="SFTP">
+        <fileTransfer host="78.141.219.180" port="22" rootFolder="/var/nodes/ccs/ccms/ccs_ccms_web/" accessType="SFTP">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

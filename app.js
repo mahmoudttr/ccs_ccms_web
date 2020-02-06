@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 require('dotenv').config();
 
 
+// var sio = socket(server);
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
@@ -33,6 +34,8 @@ app.use(cookieParser());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+//app.engine('html', engines.mustache);
+app.set('view engine', 'html');
 
 app.use(logger('dev'));
 
@@ -51,6 +54,7 @@ app.use((req, res, next) => {
 */
 
 app.use('/', authRouter);
+
 app.use('/', indexRouter);
 
 app.use('*', (req, res) => {

@@ -1,41 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Users</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="AdminLTE/plugins/fontawesome-free/css/all.min.css">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="AdminLTE/dist/css/adminlte.min.css">
+        <!-- Google Font: Source Sans Pro -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="AdminLTE/plugins/fontawesome-free/css/all.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- daterange picker -->
+        <link rel="stylesheet" href="AdminLTE/plugins/daterangepicker/daterangepicker.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+        <!-- Bootstrap Color Picker -->
+        <link rel="stylesheet" href="AdminLTE/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+        <!-- Tempusdominus Bbootstrap 4 -->
+        <link rel="stylesheet" href="AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="AdminLTE/plugins/select2/css/select2.min.css">
+        <link rel="stylesheet" href="AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+        <!-- Bootstrap4 Duallistbox -->
+        <link rel="stylesheet" href="AdminLTE/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+
+        <!-- Google Font: Source Sans Pro -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+    <title>CCSystem | Users</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="data.js"></script>
 </head>
 <style>
     .error {
         color: red;
     }
-
     .success {
         color: green;
     }
 </style>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+        <div class="wrapper">
+          <!-- Navbar -->
+          <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+              </li>
 
-<h3 id="titleForm">Add User</h3>
-<div id="message"></div>
+            </ul>
+          </nav>
+          <!-- /.navbar -->
 
-<form action="http://localhost:3006/users" id="form_create_user" method="post">
-    <div id="is_update"></div>
-    <input id="username" name="username" placeholder="Username" type="text"><br>
-    <input id="first_name" name="first_name" placeholder="First Name" type="text"><br>
-    <input id="last_name" name="last_name" placeholder="Last Name" type="text"><br>
-    <input id="email" name="email" placeholder="Email" type="text"><br>
-    <input id="password" name="password" placeholder="Password" type="password"><br>
-    <!--<input name="image" type="file">--><br>
-    <input id="phone_number_pbx" name="phone_number_pbx" placeholder="Phone Number PBX" type="tel"><br>
-    <div id="roles"></div>
-    <br>
-    <div id="btn_form"></div>
-    <div id="btn_cancel_update"></div>
-</form>
+          <!-- Main Sidebar Container -->
+          <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="" class="brand-link">
+              <img src="AdminLTE/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                   style="opacity: .8">
+              <span class="brand-text font-weight-light">CCSystem</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+              <!-- Sidebar user panel (optional) -->
+              <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                  <img src="AdminLTE/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                  <a href="#" class="d-block">Alexander Pierce</a>
+                </div>
+              </div>
+
+              <!-- Sidebar Menu -->
+              <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                        <li class="nav-item"> <a href="/users" class="nav-link"> <i class="nav-icon far fa-user"></i><p>users </p></a></li>
+                        <li class="nav-item"> <a href="/groups" class="nav-link"> <i class="nav-icon fas fa-users"></i><p>groups </p></a></li>
+                        <li class="nav-item"> <a href="/group-users" class="nav-link"> <i class="nav-icon fas fa-users"></i><p>Group Users</p></a></li>
+                        <li class="nav-item"> <a href="/chat-user" class="nav-link"> <i class="nav-icon fas fa-comments"></i><p>Chat User </p></a></li>
+                        <li class="nav-item"> <a href="/chat-group" class="nav-link"> <i class="nav-icon fas fa-comments"></i><p>Chat Group </p></a></li>
+                        <li class="nav-item"> <a href="/logout" class="nav-link"> <i class="nav-icon fas fa-sign-out-alt"></i><p>logout </p></a></li>
+
+                </ul>
+              </nav>
+              <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+          </aside>
+
+          <!-- Content Wrapper. Contains page content -->
+          <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+              <div class="container-fluid">
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Add User</h1>
+                  </div><!-- /.col -->
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    </ol>
+                  </div><!-- /.col -->
+                </div><!-- /.row -->
+              </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <div id="message"></div>
+            <div class="row">
+                    <!-- left column -->
+
+                    <div class="col-md-7">
+
+            <div class="card card-primary">
+
+
+                    <form action="#" id="form_create_user" method="post">
+                      <div class="card-body">
+                            <div id="is_update"></div>
+
+                            <div class="form-group">
+                                    <label for="username">username</label>
+                                    <input id="username" name="username" placeholder="Username" type="text" class="form-control" >
+                            </div>
+
+                        <div class="form-group">
+                          <label for="first_name">first_name</label>
+                          <input id="first_name" name="first_name" placeholder="First Name" type="text" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                                <label for="last_name">last_name</label>
+                                <input id="last_name" name="last_name" placeholder="Last Name" type="text"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                                <label for="email">email</label>
+                                <input id="email" name="email" placeholder="Email" type="text"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                                <label for="password">password</label>
+                                <input id="password" name="password" placeholder="Password" type="password"  class="form-control">
+
+                        </div>
+
+                        <div class="form-group">
+                                <label for="phone_number_pbx">phone_number_pbx</label>
+                                <input id="phone_number_pbx" name="phone_number_pbx" placeholder="Phone Number PBX" type="tel"  class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                                <label for="roles">roles</label>
+
+                                <div id="roles"class="card-tools" ></div>
+                              </div>
+
+
+                        <div class="form-group">
+                                <div id="btn_form" ></div>
+                         </div>
+
+                        <div class="form-groups">
+                                <div id="btn_cancel_update"></div>
+                        </div>
+
+
+                    </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-7">
+                <div></div>
+                <div class="card card-primary">
+                        <div class="col-sm-7">
+                                <h1 class="m-0 text-dark">Current Users</h1>
+                              </div><!-- /.col -->
+            <!-- Main content -->
+            <section class="content">
+                    <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body p-0">
+                              <div id="table_users" class="table-responsive">
+                              </div>
+                            </div>
+                          </div>
+            </section>
+        </div>
+    </div>
+
+
+
+            <!-- /.content -->
+          </div>
+          <!-- /.content-wrapper -->
+
+          <!-- Control Sidebar -->
+          <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+          </aside>
+          <!-- /.control-sidebar -->
+
+          <!-- Main Footer -->
+          <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2019 <a href="">eutd</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+              <b>Version</b> -1
+            </div>
+          </footer>
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- REQUIRED SCRIPTS -->
+        <!-- jQuery -->
+        <script src="AdminLTE/plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- overlayScrollbars -->
+        <script src="AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="AdminLTE/dist/js/adminlte.js"></script>
+
+        <!-- OPTIONAL SCRIPTS -->
+        <script src="AdminLTE/dist/js/demo.js"></script>
+
+        <!-- PAGE PLUGINS -->
+        <!-- jQuery Mapael -->
+        <script src="AdminLTE/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+        <script src="AdminLTE/plugins/raphael/raphael.min.js"></script>
+        <script src="AdminLTE/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+        <script src="AdminLTE/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+        <!-- ChartJS -->
+        <script src="AdminLTE/plugins/chart.js/Chart.min.js"></script>
+
+        <!-- PAGE SCRIPTS -->
+        <script src="AdminLTE/dist/js/pages/dashboard2.js"></script>
+
+
+
 <hr>
-<h3>Users</h3>
-<div id="table_users"></div>
+
+
 
 <script>
     getUsers();
@@ -45,12 +272,12 @@
     btnCreateForm();
 
     function btnCreateForm() {
-        $('#btn_form').html('<button onclick="addUser()" type="button">Save</button>');
+        $('#btn_form').html('<button onclick="addUser()" type="button"  class="btn btn-primary btn-block" >Save</button>');
     }
 
     function cancelUpdate() {
         $("#titleForm").html('Add User');
-        $('#form_create_user').attr('action', 'http://localhost:3006/users');
+        $('#form_create_user').attr('action', stageBaseURLs+'/users');
         $("#username").val('');
         $("#first_name").val('');
         $("#last_name").val('');
@@ -63,7 +290,7 @@
     }
 
     function editUser(id) {
-        var url = 'http://localhost:3006/users/' + id;
+        var url = stageBaseURLs+'/users/' + id;
         $.ajax({
             url: url,
             data: {},
@@ -72,14 +299,14 @@
             success: function (data) {
                 if (data.result == 1) {
                     $("#titleForm").html('Edit User');
-                    $('#form_create_user').attr('action', 'http://localhost:3006/users/' + data.data.id);
-                    $("#username").val(data.data.username);
-                    $("#first_name").val(data.data.first_name);
-                    $("#last_name").val(data.data.last_name);
-                    $("#email").val(data.data.email);
+                    $('#form_create_user').attr('action', stageBaseURLs+'/users/' + data.data.user.id);
+                    $("#username").val(data.data.user.username);
+                    $("#first_name").val(data.data.user.first_name);
+                    $("#last_name").val(data.data.user.last_name);
+                    $("#email").val(data.data.user.email);
                     $("#password").hide();
-                    $("#phone_number_pbx").val(data.data.phone_number_pbx);
-                    $('#btn_form').html('<button onclick="addUser()" type="button" id="btn_form">Update</button>');
+                    $("#phone_number_pbx").val(data.data.user.phone_number_pbx);
+                    $('#btn_form').html('<button onclick="addUser(1)" type="button" id="btn_form">Update</button>');
                     $('#btn_cancel_update').html('<button type="button" onclick="cancelUpdate()">Cancel</button>');
                     $('#is_update').html(' <input type="hidden" name="_method" value="put">');
                 }
@@ -90,7 +317,7 @@
     }
 
     function getUsers() {
-        var url = 'http://localhost:3006/users/data';
+        var url = stageBaseURLs+'/users/data';
         $.ajax({
             url: url,
             data: {},
@@ -111,19 +338,21 @@
                     '    <th>Action</th>';
                 if (data.result == 1) {
                     $.each(data.data, function (idx, obj) {
-                        table += ('<tr>');
-                        table += ('<td>' + ++i + '</td>');
-                        table += ('<td>' + obj.username + '</td>');
-                        table += ('<td>' + obj.first_name + obj.last_name + '</td>');
-                        table += ('<td>' + obj.email + '</td>');
-                        // table += ('<td><img src="' + obj.image + '"></td>');
-                        table += ('<td>' + obj.phone_number_pbx + '</td>');
-                        //    table += ('<td>' + obj.role_id + '</td>');
-                        table += ('<td> ' +
-                            ' <a href="javascript:;" onclick="editUser(' + obj.id + ')">Edit</a> ' +
-                            '<a href="javascript:;" onclick="deleteUser(' + obj.id + ')">Delete</a> ' +
-                            '</td>');
-                        table += ('</tr>');
+                        $.each(obj, function (i,v) {
+                            table += ('<tr>');
+                            table += ('<td>' + ++i + '</td>');
+                            table += ('<td>' + v.username + '</td>');
+                            table += ('<td>' + v.first_name + v.last_name + '</td>');
+                            table += ('<td>' + v.email + '</td>');
+                            // table += ('<td><img src="' + obj.image + '"></td>');
+                            table += ('<td>' + v.phone_number_pbx + '</td>');
+                            //    table += ('<td>' + obj.role_id + '</td>');
+                            table += ('<td> ' +
+                                ' <a href="javascript:;" onclick="editUser(' + v.id + ')">Edit</a> |' +
+                                '<a href="javascript:;" onclick="deleteUser(' + v.id + ')">Delete</a> ' +
+                                '</td>');
+                            table += ('</tr>');
+                        });
                     });
                     table += ('</thead></tbody></table>');
                     $("#table_users").html(table);
@@ -133,7 +362,7 @@
     }
 
     function deleteUser(id) {
-        var url = "http://localhost:3006/users/" + id;
+        var url = stageBaseURLs+"/users/" + id;
         if (confirm("Are you sure?")) {
             $.ajax({
                 url: url,
@@ -142,7 +371,7 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data.result == 1) {
-                        alert(response.message);
+                        alert(data.message);
                         getUsers();
                     }
                 }
@@ -151,7 +380,7 @@
     }
 
     function getRoles() {
-        var url = "http://localhost:3006/roles";
+        var url = stageBaseURLs+"/roles";
         $.ajax({
             url: url,
             data: {},
@@ -162,7 +391,9 @@
                     var roles = ' <select name="role_id" id="role_id">';
                     //  roles += ' <option value="">Select Role</option>';
                     $.each(data.data, function (index, array) {
-                        roles += '<option value="' + array.id + '">' + array.name + '</option>';
+                        $.each(array, function (i, v) {
+                            roles += '<option value="' + v.id + '">' + v.name + '</option>';
+                        });
                     });
                     roles += ' </select>';
                     $('#roles').html(roles);
@@ -171,16 +402,26 @@
         });
     }
 
-    function addUser() {
+    function addUser(edit = null) {
+        var url = $('#form_create_user').attr('action');
+        if(edit == null) {
+            var methods = 'POST';
+        }else{
+            var methods = 'PUT';
+        }
+       // var url = stageBaseURLs+'/users';
         $.ajax({
-            type: 'POST',
-            url: $('#form_create_user').attr('action'),
+            type: methods,
+            url: url,
             data: $('#form_create_user').serialize(),
             dataType: "json",
             success: function (data) {
                 alert(data.message);
                 if (data.result == 1) {
                     getUsers();
+                }
+                if(edit != '') {
+                    cancelUpdate();
                 }
             }, error: function (errors, exception) {
                 if (exception == 'error') {

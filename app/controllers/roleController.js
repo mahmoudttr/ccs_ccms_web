@@ -1,10 +1,22 @@
-const api = require('../helpers/apiResponse');
+//const api = require('../helpers/apiResponse');
 const request = require("request");
+//const tokenStorage = require('../helpers/localStorage');
+const apiURL = process.env.API_URL;
 
 exports.findAll = (req, res) => {
-    request("http://localhost:3007/api/v1/roles", function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            return res.status(response.statusCode).json(body);
-        }
-    });
+    const token = req.cookies.accessToken || '';
+    if (!token) {
+        res.redirect('/login');
+    } else {
+        request({
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'authorization': token.token
+            },
+            method: 'GET',
+            url: apiURL+"/roles"
+        }, function (error, response, body) {
+            return res.status(response.statusCode).json(JSON.parse(body));
+        });
+    }
 };

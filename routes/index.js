@@ -6,6 +6,16 @@ const homeController = require('../app/controllers/homeController');
 const userController = require('../app/controllers/userController');
 const groupController = require('../app/controllers/groupController');
 const groupUserController = require('../app/controllers/groupUserController');
+const chatGroupController = require('../app/controllers/chatGroupController');
+const chatUserController = require('../app/controllers/chatUserController');
+
+
+router.get('/chat', chatUserController._index);
+
+router.get('/chat-user', chatUserController.index);
+
+router.get('/chat-group', chatGroupController.index);
+
 
 // Home
 router.get('/', homeController.index);
@@ -39,6 +49,7 @@ router.get('/group-users', groupUserController.index);
 router.get('/group-users', groupUserController.findAll);
 router.post('/group-users', groupUserController.store);
 router.get('/group-users/users/:groupName', groupUserController.users);
+router.get('/group-users/groups/:userId', groupUserController.groupsByUserID);
 //router.get('/group-users/:id', groupUserController.findOne);
 //router.post('/group-users', groupUserController.create);
 router.put('/group-users/:id', groupUserController.update);

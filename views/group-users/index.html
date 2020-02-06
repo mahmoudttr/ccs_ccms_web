@@ -1,41 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Group Users</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="AdminLTE/plugins/fontawesome-free/css/all.min.css">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="AdminLTE/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="AdminLTE/dist/css/adminlte.min.css">
+        <!-- Google Font: Source Sans Pro -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="AdminLTE/plugins/fontawesome-free/css/all.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- daterange picker -->
+        <link rel="stylesheet" href="AdminLTE/plugins/daterangepicker/daterangepicker.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+        <!-- Bootstrap Color Picker -->
+        <link rel="stylesheet" href="AdminLTE/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+        <!-- Tempusdominus Bbootstrap 4 -->
+        <link rel="stylesheet" href="AdminLTE/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="AdminLTE/plugins/select2/css/select2.min.css">
+        <link rel="stylesheet" href="AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+        <!-- Bootstrap4 Duallistbox -->
+        <link rel="stylesheet" href="AdminLTE/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+
+        <!-- Google Font: Source Sans Pro -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+        <title>CCSystem | Group Users</title>
+
+
+    <script src="data.js"></script>
 </head>
-<style>
-    .error {
-        color: red;
-    }
 
-    .success {
-        color: green;
-    }
 
-    b {
-        color: #000;
-    }
-</style>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+        <div class="wrapper">
+          <!-- Navbar -->
+          <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+              </li>
 
-<h3>Add User to Group</h3>
-<div id="message"></div>
+            </ul>
+          </nav>
+          <!-- /.navbar -->
 
-<form action="http://localhost:3006/group-users" id="form_create_group" method="post">
-    <label>Select User</label>
-    <div id="users"></div>
-    <br>
-    <label>Select Group</label>
-    <div id="groups"></div>
-    <br>
-    <button onclick="addUserToGroup()" type="button">Save</button>
-</form>
-<hr>
-<h3>Group Users</h3>
-<input id="groupName" name="groupName" placeholder="Enter Group Name" type="text">
-<button onclick="getGroupUsers()" type="button">Get Users</button>
-<div id="table_group_users"></div>
+          <!-- Main Sidebar Container -->
+          <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="" class="brand-link">
+              <img src="AdminLTE/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                   style="opacity: .8">
+              <span class="brand-text font-weight-light">CCSystem</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+              <!-- Sidebar user panel (optional) -->
+              <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                  <img src="AdminLTE/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                  <a href="#" class="d-block">Alexander Pierce</a>
+                </div>
+              </div>
+
+              <!-- Sidebar Menu -->
+              <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                        <li class="nav-item"> <a href="/users" class="nav-link"> <i class="nav-icon far fa-user"></i><p>users </p></a></li>
+                        <li class="nav-item"> <a href="/groups" class="nav-link"> <i class="nav-icon fas fa-users"></i><p>groups </p></a></li>
+                        <li class="nav-item"> <a href="/group-users" class="nav-link"> <i class="nav-icon fas fa-users"></i><p>Group Users</p></a></li>
+                        <li class="nav-item"> <a href="/chat-user" class="nav-link"> <i class="nav-icon fas fa-comments"></i><p>Chat User </p></a></li>
+                        <li class="nav-item"> <a href="/chat-group" class="nav-link"> <i class="nav-icon fas fa-comments"></i><p>Chat Group </p></a></li>
+                        <li class="nav-item"> <a href="/logout" class="nav-link"> <i class="nav-icon fas fa-sign-out-alt"></i><p>logout </p></a></li>
+
+                </ul>
+              </nav>
+              <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+          </aside>
+
+          <!-- Content Wrapper. Contains page content -->
+          <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+              <div class="container-fluid">
+                <div class="row mb-2">
+                  <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Add User to Group</h1>
+                  </div><!-- /.col -->
+                  <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    </ol>
+                  </div><!-- /.col -->
+                </div><!-- /.row -->
+              </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <div id="message"></div>
+            <div class="row">
+                    <!-- left column -->
+
+                    <div class="col-md-7">
+
+            <div class="card card-primary">
+
+
+
+
+
+                    <form action="#" id="form_create_group" method="post">
+                      <div class="card-body">
+                            <div id="is_update"></div>
+
+                            <div class="form-group">
+                                    <label for="Select User">Select User</label>
+                                    <div id="users"></div>
+                                </div>
+
+
+
+                        <div class="form-group">
+                          <label for="Select Group">Select Group</label>
+                          <div id="groups" ></div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                                <button onclick="addUserToGroup()" type="button" class="btn btn-primary btn-block" >Save</button>
+                         </div>
+
+
+
+                    </div>
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-7">
+                <div></div>
+                <div class="card card-primary">
+                        <div class="col-sm-7">
+                                <h1 class="m-0 text-dark">Group Users</h1>
+                              </div><!-- /.col -->
+            <!-- Main content -->
+
+
+
+            <section class="content">
+                    <div class="card">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                            <div class="form-group">
+                                    <div>
+                                            <input id="groupName" name="groupName" placeholder="Enter Group Name" type="text" class="form-control">
+                                        </div>
+                                  </div>
+
+                                  <div class="form-group">
+
+                        <div>
+                            <button onclick="getGroupUsers()" type="button" class="btn btn-primary btn-block">Get Users</button>
+                        </div>
+                    </div>
+                </div >
+                            <div class="card-body p-0">
+                              <div id="table_group_users" class="table-responsive">
+                              </div>
+                            </div>
+                          </div>
+            </section>
+        </div>
+    </div>
+
+
+
+            <!-- /.content -->
+          </div>
+          <!-- /.content-wrapper -->
+
+          <!-- Control Sidebar -->
+          <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+          </aside>
+          <!-- /.control-sidebar -->
+
+          <!-- Main Footer -->
+          <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2019 <a href="">eutd</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+              <b>Version</b> -1
+            </div>
+          </footer>
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- REQUIRED SCRIPTS -->
+        <!-- jQuery -->
+        <script src="AdminLTE/plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- overlayScrollbars -->
+        <script src="AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="AdminLTE/dist/js/adminlte.js"></script>
+
+        <!-- OPTIONAL SCRIPTS -->
+        <script src="AdminLTE/dist/js/demo.js"></script>
+
+        <!-- PAGE PLUGINS -->
+        <!-- jQuery Mapael -->
+        <script src="AdminLTE/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+        <script src="AdminLTE/plugins/raphael/raphael.min.js"></script>
+        <script src="AdminLTE/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+        <script src="AdminLTE/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+        <!-- ChartJS -->
+        <script src="AdminLTE/plugins/chart.js/Chart.min.js"></script>
+
+        <!-- PAGE SCRIPTS -->
+        <script src="AdminLTE/dist/js/pages/dashboard2.js"></script>
+
+
+
+
+
+
+
+
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <div id="js"></div>
@@ -51,7 +269,7 @@
 
     function getGroupUsers() {
         var groupName = $('#groupName').val();
-        var url = "http://localhost:3006/group-users/users/" + groupName;
+        var url = stageBaseURLs+"/group-users/users/" + groupName;
         $.ajax({
             url: url,
             data: {},
@@ -71,15 +289,17 @@
                         '    <th>Action</th>';
                     if (data.result == 1) {
                         $.each(data.data, function (idx, obj) {
-                            table += ('<tr>');
-                            table += ('<td>' + ++i + '</td>');
-                            table += ('<td>' + obj.group_name + '</td>');
-                            table += ('<td>' + obj.user_name + '</td>');
-                            table += ('<td> ' +
-                                ' <a href="javascript:;" title="Move a user from the group">Edit</a> | ' +
-                                '<a href="javascript:;" onclick="deleteUserFromGroup(' + obj.id + ')" title="Delete User From Group">Delete</a> ' +
-                                '</td>');
-                            table += ('</tr>');
+                            $.each(obj, function (i, v) {
+                                table += ('<tr>');
+                                table += ('<td>' + ++i + '</td>');
+                                table += ('<td>' + v.group_name + '</td>');
+                                table += ('<td>' + v.user_name + '</td>');
+                                table += ('<td> ' +
+                                    ' <a href="javascript:;" title="Move a user from the group">Edit</a> | ' +
+                                    '<a href="javascript:;" onclick="deleteUserFromGroup(' + v.id + ')" title="Delete User From Group">Delete</a> ' +
+                                    '</td>');
+                                table += ('</tr>');
+                            });
                         });
                         table += ('</thead></tbody></table>');
                         $("#table_group_users").html(table);
@@ -105,7 +325,7 @@
     }
 
     function getGroups() {
-        var url = "http://localhost:3006/groups/data";
+        var url = stageBaseURLs+"/groups/data";
         $.ajax({
             url: url,
             data: {},
@@ -113,10 +333,12 @@
             dataType: 'json',
             success: function (data) {
                 if (data.result == 1) {
-                    var groups = ' <select name="group_id">';
+                    var groups = ' <select  class="form-control select2" name="group_id">';
                     // groups += ' <option value="">Select User</option>';
                     $.each(data.data, function (index, array) {
-                        groups += '<option value="' + array.id + '">' + array.name + '</option>';
+                        $.each(array, function (i, v) {
+                            groups += '<option value="' + v.id + '">' + v.name + '</option>';
+                        });
                     });
                     groups += ' </select>';
                     $('#groups').html(groups);
@@ -126,7 +348,7 @@
     }
 
     function getUsers() {
-        var url = "http://localhost:3006/users/data";
+        var url = stageBaseURLs+"/users/data";
         $.ajax({
             url: url,
             data: {},
@@ -134,10 +356,12 @@
             dataType: 'json',
             success: function (data) {
                 if (data.result == 1) {
-                    var users = ' <select name="user_id" id="user_id">';
+                    var users = ' <select class="form-control select2" name="user_id" id="user_id">';
                     // users += ' <option value="">Select User</option>';
                     $.each(data.data, function (index, array) {
-                        users += '<option value="' + array.id + '">' + array.username + '</option>';
+                        $.each(array, function (i, v) {
+                            users += '<option value="' + v.id + '">' + v.username + '</option>';
+                        });
                     });
                     users += ' </select>';
                     $('#users').html(users);
@@ -148,7 +372,7 @@
     }
 
     function deleteUserFromGroup(id) {
-        var url = "http://localhost:3006/group-users/" + id;
+        var url = stageBaseURLs+"/group-users/" + id;
         if (confirm("Are you sure?")) {
             $.ajax({
                 url: url,
@@ -166,10 +390,12 @@
         }
     }
 
-    function addUserToGroup() {
+    function addUserToGroup(edit = null) {
+        var url = stageBaseURLs+'/group-users';
+
         $.ajax({
             type: 'POST',
-            url: $('#form_create_group').attr('action'),
+            url: url,
             data: $('#form_create_group').serialize(),
             dataType: "json",
             success: function (data) {
