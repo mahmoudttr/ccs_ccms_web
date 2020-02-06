@@ -297,6 +297,7 @@
             type: 'GET',
             dataType: 'json',
             success: function (data) {
+               // console.log(data);
                 if (data.result == 1) {
                     $("#titleForm").html('Edit User');
                     $('#form_create_user').attr('action', stageBaseURLs+'/users/' + data.data.user.id);

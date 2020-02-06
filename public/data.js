@@ -3,12 +3,12 @@ let stagePort = '3006';
 let localPort = '3006';
 
 
-let devBaseURL = 'http://ibrahemayyad.ga:' + devPort;
-let stageBaseURL = 'http://ibrahemayyad.ga:' + stagePort;
+let devBaseURL = 'http://swifthelp.org:' + devPort;
+let stageBaseURL = 'http://swifthelp.org:' + stagePort;
 let localBaseURL = 'http://localhost:' + localPort;
 
-let devBaseURLs = 'https://ibrahemayyad.ga:' + devPort;
-let stageBaseURLs = 'https://ibrahemayyad.ga:' + stagePort;
+let devBaseURLs = 'https://swifthelp.org:' + devPort;
+let stageBaseURLs = 'https://swifthelp.org:' + stagePort;
 
 
 

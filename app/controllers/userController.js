@@ -133,7 +133,7 @@ exports.edit = (req, res) => {
         request({
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                    'authorization': token
+                    'authorization': token.token
                 },
                 method: 'GET',
                 url: apiURL+"/users/" + req.params.id,

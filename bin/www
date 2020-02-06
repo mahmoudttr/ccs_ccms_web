@@ -29,9 +29,9 @@ app.set('port', port);
 // var server = https.createServer(app);
 
 const server = https.createServer({
-    key: fs.readFileSync("/var/cert/1ibrahemayyad.ga.key", 'utf8'),
-    cert: fs.readFileSync("/var/cert/1ibrahemayyad.ga.crt", 'utf8'),
-    ca: fs.readFileSync("/var/cert/chain.pem", 'utf8')
+    key: fs.readFileSync("/var/cert/swifthelp.org.key", 'utf8'),
+    cert: fs.readFileSync("/var/cert/swifthelp.org.crt", 'utf8'),
+    ca: fs.readFileSync("/var/cert/swifthelp.org.chain", 'utf8')
 }, app);
 
 //var sio = socket(server);
